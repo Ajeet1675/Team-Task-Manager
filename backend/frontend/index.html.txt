@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Team Task Manager</title>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 40px;
+      background: #f5f5f5;
+    }
+    h1 { color: #333; }
+    .box {
+      background: white;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    input {
+      padding: 8px;
+      margin: 5px;
+    }
+    button {
+      padding: 8px 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Team Task Manager</h1>
+
+<div class="box">
+  <h3>Create User</h3>
+  <input id="name" placeholder="Name">
+  <input id="email" placeholder="Email">
+  <button onclick="createUser()">Create User</button>
+</div>
+
+<div class="box">
+  <h3>Create Project</h3>
+  <input id="projectName" placeholder="Project Name">
+  <button onclick="createProject()">Create Project</button>
+</div>
+
+<div class="box">
+  <h3>Create Task</h3>
+  <input id="taskTitle" placeholder="Task Title">
+  <button onclick="createTask()">Create Task</button>
+</div>
+
+<script>
+const BASE_URL = "http://localhost:8081";
+
+async function createUser() {
+  await fetch(BASE_URL + "/users", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      password: "123",
+      role: "ADMIN"
+    })
+  });
+  alert("User Created");
+}
+
+async function createProject() {
+  await fetch(BASE_URL + "/projects", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      name: document.getElementById("projectName").value,
+      createdBy: 1
+    })
+  });
+  alert("Project Created");
+}
+
+async function createTask() {
+  await fetch(BASE_URL + "/tasks", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      title: document.getElementById("taskTitle").value,
+      status: "PENDING",
+      assignedTo: 1,
+      projectId: 1,
+      deadline: "2026-05-10"
+    })
+  });
+  alert("Task Created");
+}
+</script>
+
+</body>
+</html>
